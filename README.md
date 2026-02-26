@@ -59,6 +59,12 @@ Output is saved to `docs/design-system.md`.
 
 ## Step 3: Rebuild Existing Page to Conform to Standard
 
-Build an HTML page in the `sample/` folder based on `sample/image.png`, using `docs/design-system.md` as a reference to conform to the design system's layout and styles.
+Build an HTML page in the `sample/` folder based on `sample/old.png`, using `docs/design-system.md` as a reference to conform to the design system's layout and styles.
 
-Example page: `/sample/image.png` screenshot
+**Original (old.png):**
+
+![Original page](sample/old.png)
+
+**Rebuilt (new.png):**
+
+![Rebuilt page](sample/new.png)
