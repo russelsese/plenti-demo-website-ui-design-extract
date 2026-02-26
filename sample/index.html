@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register to invest with Plenti</title>
+  <style>
+    /* ── Design tokens (from docs/design-system.md) ── */
+    :root {
+      --primary-main:    #002861;
+      --primary-hover:   #00142f;
+      --neutral-100:     #ffffff;
+      --neutral-200:     #f1f2f4;
+      --neutral-300:     #dbdde1;
+      --neutral-400:     #babec5;
+      --neutral-500:     #5d656f;
+      --neutral-600:     #41474e;
+      --neutral-700:     #2e3238;
+      --neutral-800:     #0c0d0e;
+      --danger-100:      #fae4e4;
+      --danger-300:      #9e0202;
+      --sky:             #dae5f0;
+      --sky-30:          #f4f7fb;
+
+      --font-heading:    Garnett, Arial, sans-serif;
+      --font-body:       Satoshi, Arial, sans-serif;
+
+      --radius-sm:       4px;
+      --radius-md:       8px;
+      --radius-lg:       12px;
+
+      --shadow-200:      0px 4px 8px 0px rgba(0,0,0,0.08);
+    }
+
+    /* ── Fonts (Webflow CDN) ── */
+    @font-face {
+      font-family: Garnett; font-weight: 300; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/678e11775d489ee084160452_garnett-light.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: Garnett; font-weight: 400; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/678e117c2ef534ee3db3f544_garnett-regular.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: Garnett; font-weight: 500; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/678e117c83dfb748c55ba472_garnett-medium.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: Satoshi; font-weight: 400; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/678e0e7149b23fa262dbfe62_Satoshi-Medium.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: Satoshi; font-weight: 500; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/678e0e7149b23fa262dbfe62_Satoshi-Medium.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: Satoshi; font-weight: 700; font-display: swap;
+      src: url(https://cdn.prod.website-files.com/678e0e7049b23fa262dbfe16/692392418842ad0bb13c6250_Satoshi-Bold.otf) format('opentype');
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--neutral-600);
+      background: var(--neutral-100);
+    }
+
+    a { color: var(--primary-main); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ════════════════════════════
+       NAV
+    ════════════════════════════ */
+    .nav {
+      background: white;
+      border-bottom: 1px solid var(--neutral-300);
+      padding: 14px 0;
+    }
+    .nav-logo svg { height: 26px; display: block; }
+
+    /* ════════════════════════════
+       3 REASONS SECTION
+    ════════════════════════════ */
+    .reasons-section {
+      background: var(--sky);
+      padding: 28px 0 32px;
+    }
+    .reasons-heading {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--primary-main);
+      margin-bottom: 16px;
+      letter-spacing: -0.08px;
+    }
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .reason-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-200);
+    }
+    .reason-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .reason-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .reason-title {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary-main);
+    }
+    .reason-desc {
+      font-size: 12px;
+      color: var(--neutral-500);
+      line-height: 18px;
+    }
+
+    /* ════════════════════════════
+       REGISTER SECTION
+    ════════════════════════════ */
+    .register-section {
+      padding: 36px 0 56px;
+      background: white;
+    }
+    .register-section-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(1.5rem, .75vw + 1.32rem, 2rem);
+      font-weight: 400;
+      color: var(--primary-main);
+      letter-spacing: -0.36px;
+      margin-bottom: 24px;
+    }
+    .register-layout {
+      display: grid;
+      grid-template-columns: 1fr 268px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── Progress tabs ── */
+    .progress-tabs {
+      display: flex;
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-tab {
+      flex: 1;
+      padding: 11px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--neutral-500);
+      background: var(--neutral-200);
+      border: none;
+      border-right: 1px solid var(--neutral-300);
+      text-align: center;
+      cursor: default;
+      position: relative;
+    }
+    .progress-tab:last-child { border-right: none; }
+    .progress-tab.active {
+      background: white;
+      color: var(--primary-main);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    /* Chevron arrow divider */
+    .progress-tab:not(.active):not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-top: 19px solid transparent;
+      border-bottom: 19px solid transparent;
+      border-left: 10px solid var(--neutral-300);
+      z-index: 1;
+    }
+
+    /* ── Form elements ── */
+    .form-group { margin-bottom: 12px; }
+
+    .form-input {
+      width: 100%;
+      height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--neutral-700);
+      background: white;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input::placeholder { color: var(--neutral-400); }
+    .form-input:focus {
+      border-color: var(--primary-main);
+      box-shadow: 0 0 0 2px rgba(0,40,97,0.1);
+    }
+    .form-input.error {
+      border-color: var(--danger-300);
+      background: var(--danger-100);
+    }
+
+    .field-error {
+      font-size: 11px;
+      color: var(--danger-300);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 12px;
+      color: var(--neutral-500);
+      margin-bottom: 6px;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: 68px 1fr 1fr 1fr;
+      gap: 6px;
+    }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    /* ── Account security ── */
+    .subheading {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--neutral-800);
+      margin: 20px 0 6px;
+    }
+    .password-hint {
+      font-size: 11px;
+      color: var(--neutral-500);
+      line-height: 16px;
+      margin-bottom: 10px;
+    }
+
+    /* ── Consent rows ── */
+    .consent-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--neutral-200);
+    }
+    .consent-text {
+      font-size: 11px;
+      color: var(--neutral-600);
+      line-height: 16px;
+    }
+    .toggle-group { display: flex; gap: 4px; flex-shrink: 0; }
+    .toggle-btn {
+      width: 34px;
+      height: 26px;
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--neutral-200);
+      color: var(--neutral-500);
+      transition: all 0.12s;
+      font-family: var(--font-body);
+    }
+    .toggle-btn.yes-active {
+      background: var(--primary-main);
+      border-color: var(--primary-main);
+      color: white;
+    }
+    .toggle-btn.no-active {
+      background: var(--danger-300);
+      border-color: var(--danger-300);
+      color: white;
+    }
+
+    /* ── Register button ── */
+    .btn-register {
+      display: block;
+      width: 100%;
+      height: 46px;
+      background: var(--primary-main);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+      letter-spacing: 0.09px;
+      transition: background 0.15s;
+    }
+    .btn-register:hover { background: var(--primary-hover); }
+
+    /* ════════════════════════════
+       SIDEBAR
+    ════════════════════════════ */
+    .sidebar-card {
+      background: var(--sky-30);
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-lg);
+      padding: 18px 16px;
+    }
+    .sidebar-heading {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--neutral-800);
+      margin-bottom: 8px;
+    }
+    .sidebar-body {
+      font-size: 12px;
+      color: var(--neutral-600);
+      line-height: 18px;
+      margin-bottom: 16px;
+    }
+    .testimonial + .testimonial { margin-top: 14px; }
+    .testimonial {
+      padding-top: 14px;
+      border-top: 1px solid var(--neutral-300);
+    }
+    .testimonial-quote {
+      font-size: 11px;
+      color: var(--neutral-600);
+      line-height: 17px;
+      margin-bottom: 6px;
+    }
+    .testimonial-author {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--neutral-700);
+    }
+    .canstar-wrap {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--neutral-300);
+    }
+
+    /* ════════════════════════════
+       FOOTER LEGAL
+    ════════════════════════════ */
+    .footer-legal {
+      background: var(--neutral-200);
+      border-top: 1px solid var(--neutral-300);
+      padding: 20px 0;
+    }
+    .footer-legal p {
+      font-size: 11px;
+      color: var(--neutral-500);
+      line-height: 17px;
+      margin-bottom: 6px;
+    }
+    .footer-legal p:last-child { margin-bottom: 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 767px) {
+      .reasons-grid { grid-template-columns: 1fr; }
+      .register-layout { grid-template-columns: 1fr; }
+      .name-grid { grid-template-columns: 1fr 1fr; }
+      .progress-tab { font-size: 11px; }
+    }
+    @media (max-width: 479px) {
+      .name-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-logo">
+        <!-- Plenti wordmark SVG (navy) -->
+        <svg viewBox="0 0 80 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Plenti">
+          <text x="0" y="21" font-family="Garnett, Arial, sans-serif" font-size="22" font-weight="700" fill="#002861">Plenti</text>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── 3 Reasons to invest with us ── -->
+  <section class="reasons-section">
+    <div class="container">
+      <h2 class="reasons-heading">3 reasons to invest with us</h2>
+      <div class="reasons-grid">
+
+        <div class="reason-card">
+          <div class="reason-title-row">
+            <!-- Dollar coin icon -->
+            <svg class="reason-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12" stroke="#002861" stroke-width="1.5"/>
+              <text x="14" y="19" font-family="Arial" font-size="12" font-weight="700" fill="#002861" text-anchor="middle">$</text>
+            </svg>
+            <span class="reason-title">Strong, attractive returns</span>
+          </div>
+          <p class="reason-desc">Earn strong, attractive returns by investing in loans to creditworthy borrowers.</p>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title-row">
+            <!-- Circular arrows icon -->
+            <svg class="reason-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12" stroke="#002861" stroke-width="1.5"/>
+              <path d="M9 14a5 5 0 0 1 8.5-3.5L19 9v4h-4l1.5-1.5A3 3 0 0 0 11 14" stroke="#002861" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M19 14a5 5 0 0 1-8.5 3.5L9 19v-4h4l-1.5 1.5A3 3 0 0 0 17 14" stroke="#002861" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+            <span class="reason-title">Simple</span>
+          </div>
+          <p class="reason-desc">Invest from $10 for indicative terms from 1 month to 5 years.</p>
+        </div>
+
+        <div class="reason-card">
+          <div class="reason-title-row">
+            <!-- Protection / shield icon -->
+            <svg class="reason-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12" stroke="#002861" stroke-width="1.5"/>
+              <path d="M14 7l6 2.5v4.5c0 3.5-2.5 6-6 7.5-3.5-1.5-6-4-6-7.5V9.5L14 7z" stroke="#002861" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M11 14l2 2 4-4" stroke="#002861" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="reason-title">Protection</span>
+          </div>
+          <p class="reason-desc">The Provision Fund is designed to help protect investors from loss.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Register Section ── -->
+  <section class="register-section">
+    <div class="container">
+
+      <h1 class="register-section-heading">Register to invest with Plenti</h1>
+
+      <!-- Progress tabs -->
+      <div class="progress-tabs" role="tablist">
+        <div class="progress-tab active" role="tab" aria-selected="true">Register</div>
+        <div class="progress-tab" role="tab" aria-selected="false">Investing entity</div>
+        <div class="progress-tab" role="tab" aria-selected="false">Confirms</div>
+        <div class="progress-tab" role="tab" aria-selected="false">Complete</div>
+      </div>
+
+      <div class="register-layout">
+
+        <!-- ── Form column ── -->
+        <div class="form-col">
+          <form novalidate>
+
+            <!-- Email -->
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-input error"
+                placeholder="Email"
+                value=""
+                aria-describedby="email-error"
+              />
+              <p class="field-error" id="email-error">Please provide your email</p>
+            </div>
+
+            <!-- Name label + grid -->
+            <div class="form-group">
+              <label class="field-label">Name as it appears on your driver licence or passport</label>
+              <div class="name-grid">
+                <input type="text" class="form-input" placeholder="Title" />
+                <input type="text" class="form-input" placeholder="First name" />
+                <input type="text" class="form-input" placeholder="Middle name" />
+                <input type="text" class="form-input" placeholder="Last name" />
+              </div>
+            </div>
+
+            <!-- Date of birth -->
+            <div class="form-group">
+              <input type="text" class="form-input" placeholder="Date of birth (DD/MM/YYYY)" />
+            </div>
+
+            <!-- Mobile -->
+            <div class="form-group">
+              <input type="tel" class="form-input" placeholder="Mobile number" />
+            </div>
+
+            <!-- Account security -->
+            <h3 class="subheading">Account security</h3>
+            <p class="password-hint">
+              Your password must be 6 to 30 characters, and must contain at least two of the following:
+              upper case letters, lower case letters, numbers, special characters (non letters/digits)
+            </p>
+
+            <div class="form-group two-col">
+              <input type="password" class="form-input" placeholder="Password" />
+              <input type="password" class="form-input" placeholder="Confirm password" />
+            </div>
+
+            <!-- Consent: Terms -->
+            <div class="consent-row">
+              <p class="consent-text">
+                I agree to the Plenti <a href="#">Terms and Conditions</a>
+              </p>
+              <div class="toggle-group" role="group" aria-label="Agree to Terms and Conditions">
+                <button type="button" class="toggle-btn yes-active" aria-pressed="true">YES</button>
+                <button type="button" class="toggle-btn" aria-pressed="false">NO</button>
+              </div>
+            </div>
+
+            <!-- Consent: Privacy -->
+            <div class="consent-row">
+              <p class="consent-text">
+                I agree to the acknowledgements and consents set out in the
+                <a href="#">Privacy Statement</a> and <a href="#">Electronic Communication Consent</a>
+              </p>
+              <div class="toggle-group" role="group" aria-label="Agree to Privacy Statement">
+                <button type="button" class="toggle-btn yes-active" aria-pressed="true">YES</button>
+                <button type="button" class="toggle-btn" aria-pressed="false">NO</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-register">Register</button>
+
+          </form>
+        </div>
+
+        <!-- ── Sidebar ── -->
+        <aside class="sidebar-card" aria-label="Help and testimonials">
+          <h3 class="sidebar-heading">Need help?</h3>
+          <p class="sidebar-body">
+            Learn more about investing with Plenti<br>
+            or contact us at <a href="mailto:contact@plenti.com.au">contact@plenti.com.au</a>
+          </p>
+
+          <div class="testimonial">
+            <p class="testimonial-quote">
+              "I started with a reasonable amount, invested but within a couple of months of monitoring
+              the very transparent detail of the loan activity, I invested further funds and can report
+              I am very happy with the results."
+            </p>
+            <p class="testimonial-author">– Roger, Castle Hill</p>
+          </div>
+
+          <div class="testimonial">
+            <p class="testimonial-quote">
+              "I have been lending with [Plenti] for a year now. The returns are great and the
+              transparency is even better. Great service."
+            </p>
+            <p class="testimonial-author">– Sam, Sydney</p>
+          </div>
+
+          <!-- Canstar award badge -->
+          <div class="canstar-wrap">
+            <svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Canstar award">
+              <circle cx="38" cy="38" r="36" fill="#003087" stroke="#c8a84b" stroke-width="2"/>
+              <circle cx="38" cy="38" r="30" fill="none" stroke="#c8a84b" stroke-width="1"/>
+              <!-- Star points -->
+              <polygon points="38,12 41,26 55,26 44,34 48,48 38,40 28,48 32,34 21,26 35,26" fill="#c8a84b" opacity="0.9"/>
+              <text x="38" y="60" font-family="Arial" font-size="7" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">CANSTAR</text>
+              <text x="38" y="70" font-family="Arial" font-size="5.5" fill="#c8a84b" text-anchor="middle">OUTSTANDING VALUE</text>
+            </svg>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer legal ── -->
+  <footer class="footer-legal">
+    <div class="container">
+      <p>
+        *WARNING: The comparison rate applies only to the example or examples given. Different amounts and terms will result in different comparison rates.
+        Costs such as redraw fees or early repayment fees, and cost savings such as fee waivers, are not included in the comparison rate but may influence
+        the cost of the loan.
+      </p>
+      <p>
+        The information and any advice on this website has been prepared without taking account of your objectives, financial situation or needs.
+        Before acting on it, consider whether it is appropriate for you. Plenti Pty Limited and its related companies are not licensed to give you
+        advice about its products.
+      </p>
+      <p>
+        Plenti takes your privacy seriously. All information about you is held subject to our <a href="#">Privacy Policy</a>.
+      </p>
+      <p>Copyright &copy; 2020 All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
